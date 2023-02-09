@@ -10,7 +10,7 @@ fn main() {
     }
 
     // Rust rule 1: mỗi giá trị trong rust chỉ có 1 biến được gọi là ownership
-    let _s1 = gives_ownership();
+    let mut _s1 = gives_ownership();
     let (mut _s1, _len1) = calculate_lenght_method_1(_s1);
     let _len2 = calculate_lenght_method_2(&mut _s1);
     println!("length method 1 = {}, length method 2 = {}", _len1, _len2);
