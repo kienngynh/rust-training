@@ -1,21 +1,48 @@
-#[derive(Debug)]
-enum IpAddressKind {
-    V4(u8,u8,u8,u8),
-    V6(String),
-}
+use std::arch::x86_64::_mm_add_ss;
 
-#[derive(Debug)]
-struct _IpAddress {
-    kind: IpAddressKind,
-    address: String,
-}
-impl _IpAddress{
-    fn some_funtion (){
-        println!("Blockchain Development");
+fn main() {
+    let _asset = decimals(Coin::Bitcoin(Balance::Shark));
+    println!("asset = {}", _asset);
+
+    let _five = Some(5);
+    let _six = plus_one(_five);
+    println!("six = {:#?}",_six);
+    
+    let _value = Some(4);
+    match _value{
+        Some(5) => println!("bang 5"),
+        _ => println!("khac 5"),
+
     }
 }
-fn main() {
+#[derive(Debug)]
+enum Balance {
+    Amall,
+    Intermediate,
+    Fish,
+    Shark,
+}
+enum Coin {
+    Solana,
+    Ethereum,
+    Near,
+    Bitcoin(Balance),
+}
+fn decimals(coin: Coin) -> u8 {
+    match coin {
+        Coin::Solana => 1,
+        Coin::Ethereum => 10,
+        Coin::Near => 20,
+        Coin::Bitcoin(bala) => {
+            println!("I am a {:#?}", bala);
+            30
+        }
+    }
+}
 
-    let localhost = IpAddressKind::V4(127,0,0,1);
-    println!("local host = {:#?}",localhost);
+fn plus_one(x:Option<i32>) -> Option<i32>{
+    match x{
+        Some(x) => Some(x+1),
+        _ => None,
+    }
 }
