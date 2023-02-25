@@ -1,5 +1,6 @@
-use rand::{Rng,RngCore,SeedableRng};
+#[allow(dead_code)]
 fn call_order() {}
+#[allow(dead_code)]
 pub mod back_house {
     fn cook_order() {}
     fn fix_order() {
@@ -25,6 +26,7 @@ pub mod back_house {
 }
 mod front_house;
 
+#[allow(dead_code)]
 fn eat_at_restaurant() {
     let mut _order = back_house::Breakfast::monday("Fish");
     _order.toast = String::from("Chicken");
