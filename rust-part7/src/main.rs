@@ -1,4 +1,28 @@
+#[derive(Debug)]
+struct Point<T, Y> {
+    x: T,
+    y: Y,
+    z: T,
+}
+impl<T, Y> Point<T, Y> {
+    fn mixed<V, W>(self, other: Point<V, W>) -> Point<T, W> {
+        Point {
+            x: (self.x),
+            y: (other.y),
+            z: (self.z),
+        }
+    }
+}
 fn main() {
+    let _point1 = Point {
+        x: 4,
+        y: 10.2,
+        z: 3,
+    };
+    let _point2 = Point { x: 5, y: 'v', z: 6 };
+    let _point3 = _point1.mixed(_point2);
+    println!("{:?}", _point3);
+    //println!("{} {}", _point1.x + _point1.z, _point1.y);
     let _number_list = vec![20, 32, 2024, 45, 235, 123, 353];
     let mut _max_number = &_number_list[0];
     for _number in &_number_list {
@@ -6,7 +30,10 @@ fn main() {
             _max_number = _number;
         }
     }
-    println!(" The max number is {}", get_max_number(_number_list.clone()));
+    println!(
+        " The max number is {}",
+        get_max_number(_number_list.clone())
+    );
     println!(" The max number is {}", get_max(_number_list.clone()));
     let _character_list = vec!['c', 'q', 'd', 'e', 'b'];
     println!(
