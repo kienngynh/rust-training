@@ -1,5 +1,3 @@
-use std::arch::x86_64::_mm_add_ss;
-
 fn main() {
     let _asset = decimals(Coin::Bitcoin(Balance::Shark));
     println!("asset = {}", _asset);
@@ -17,22 +15,22 @@ fn main() {
 }
 #[derive(Debug)]
 enum Balance {
-    Amall,
-    Intermediate,
-    Fish,
+    //Small,
+    //Intermediate,
+    //Fish,
     Shark,
 }
 enum Coin {
-    Solana,
-    Ethereum,
-    Near,
+    //Solana,
+    //Ethereum,
+   // Near,
     Bitcoin(Balance),
 }
 fn decimals(coin: Coin) -> u8 {
     match coin {
-        Coin::Solana => 1,
-        Coin::Ethereum => 10,
-        Coin::Near => 20,
+        //Coin::Solana => 1,
+        //Coin::Ethereum => 10,
+        //Coin::Near => 20,
         Coin::Bitcoin(bala) => {
             println!("I am a {:#?}", bala);
             30
