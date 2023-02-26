@@ -16,22 +16,21 @@ enum Status {
     Active,
     Denied,
 }
-fn try_access(employee: &Employee) -> Result<(), String> {
+fn try_access(employee: &Employee) -> Result<String, String> {
     match employee.status {
         Status::Denied => return Err("Access denied".to_owned()),
         _ => (),
     }
     match employee.position {
-        Position::CEO => Ok(()),
-        Position::CTO => Ok(()),
-        Position::Manager => Ok(()),
+        Position::CEO => Ok("Allow access".to_owned()),
+        Position::CTO => Ok("Allow access".to_owned()),
+        Position::Manager => Ok("Allow access".to_owned()),
         _ => Err("Invalid position".to_owned()),
     }
 }
-fn print_access(employee: &Employee) -> Result<(), String> {
-    try_access(employee)?;
-    println!("{:?} allow access", employee.position);
-    Ok(())
+fn print_access(employee: &Employee) {
+    let access = try_access(employee);
+    println!("{:?} {:?}", access, employee.position);
 }
 
 fn main() {
