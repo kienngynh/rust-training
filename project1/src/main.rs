@@ -4,62 +4,72 @@
 // UPDATE
 // DELETE
 
-use std::io;
+use std::{collections::HashMap, io};
 
-#[derive(Debug,Clone)]
-pub struct Student{
-    name:String,
-    age:i32,
+#[derive(Debug, Clone)]
+pub struct Student {
+    name: String,
+    age: i32,
 }
 
 pub struct Students {
-    class: Vec<Student>,
+    class: HashMap<String, Student>,
 }
 
 impl Students {
-    fn new() -> Self{
-        Self { class: vec![] }
+    fn new() -> Self {
+        Self {
+            class: HashMap::new(),
+        }
     }
-    fn add(&mut self, student:Student){
-        self.class.push(student)
+    fn add(&mut self, student: Student) {
+        self.class.insert(student.name.to_string(), student);
     }
-    fn view_all(&self) -> Vec<&Student>{
-        self.class.iter().collect()
+    fn view_all(&self) -> Vec<&Student> {
+        self.class.values().collect()
+    }
+    fn remove(&mut self, name: &str) -> bool {
+        self.class.remove(name).is_some()
+    }
+    fn edit(&mut self, name: &str, age: i32) -> bool {
+        match self.class.get_mut(name){
+              
+        }
     }
 }
 
 pub mod manager {
     use crate::*;
 
-    pub fn add_student(students:&mut Students){
+    pub fn add_student(students: &mut Students) {
         println!("Enter name of student");
-        let name = match get_input(){
+        let name = match get_input() {
             Some(input) => input,
             None => return,
         };
         println!("Enter name of student");
-        let age = match get_int(){
+        let age = match get_int() {
             Some(number) => number,
             None => return,
         };
-        let student = Student{name,age};
+        let student = Student { name, age };
         students.add(student)
     }
 
-    pub fn view(students: &Students){
-        for student in students.view_all(){
+    pub fn view(students: &Students) {
+        for student in students.view_all() {
             println!("{:?}", student);
         }
     }
 }
 
-fn get_int() -> Option<i32>{
-    let input = match get_input(){
+fn get_int() -> Option<i32> {
+    let input = match get_input() {
         Some(input) => input,
         None => return None,
     };
-    let parsed_input: Result<i32,_> = input.parse();
-    match parsed_input{
+    let parsed_input: Result<i32, _> = input.parse();
+    match parsed_input {
         Ok(input) => Some(input),
         Err(_) => None,
     }
