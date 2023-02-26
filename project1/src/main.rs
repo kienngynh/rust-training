@@ -32,8 +32,12 @@ impl Students {
         self.class.remove(name).is_some()
     }
     fn edit(&mut self, name: &str, age: i32) -> bool {
-        match self.class.get_mut(name){
-              
+        match self.class.get_mut(name) {
+            Some(name) => {
+                name.age = age;
+                true
+            }
+            None => false,
         }
     }
 }
@@ -59,6 +63,40 @@ pub mod manager {
     pub fn view(students: &Students) {
         for student in students.view_all() {
             println!("{:?}", student);
+        }
+    }
+
+    pub fn remove_student(students:&mut Students){
+        for student in students.view_all(){
+            println!("{:?}",student);
+        }
+        let name = match get_input(){
+            Some(input)=>input,
+            None => return
+        };
+        if students.remove(&name) {
+            println!("remove student")
+        }else {
+            println!("not found")
+        }
+    }
+
+    pub fn edit_students(students:&mut Students){
+        for student in students.view_all(){
+            println!("{:?}",student);
+        }
+        let name = match get_input(){
+            Some(input)=>input,
+            None => return
+        };
+        let age = match get_int(){
+            Some(input)=>input,
+            None => return
+        };
+        if students.edit(&name,age){
+            println!("student has edit")
+        } else{
+            println!("not found")
         }
     }
 }
@@ -91,7 +129,7 @@ enum Manager {
     AddStudent,
     ViewStudent,
     EditStudent,
-    DeleteStudent,
+    RemoveStudent,
 }
 impl Manager {
     fn show() {
@@ -101,7 +139,7 @@ impl Manager {
         println!("1. Add Student");
         println!("2. View Student");
         println!("3. Edit Student");
-        println!("4. Delete Student");
+        println!("4. Remove Student");
         println!("");
         println!("Please Enter Your Choice:");
         println!("");
@@ -112,7 +150,7 @@ impl Manager {
             "1" => Some(Manager::AddStudent),
             "2" => Some(Manager::ViewStudent),
             "3" => Some(Manager::EditStudent),
-            "4" => Some(Manager::DeleteStudent),
+            "4" => Some(Manager::RemoveStudent),
             _ => None,
         }
     }
@@ -126,8 +164,8 @@ fn main() {
         match Manager::choice(&input.as_str()) {
             Some(Manager::AddStudent) => manager::add_student(&mut students),
             Some(Manager::ViewStudent) => manager::view(&students),
-            Some(Manager::EditStudent) => (),
-            Some(Manager::DeleteStudent) => (),
+            Some(Manager::EditStudent) => manager::edit_students(&mut students),
+            Some(Manager::RemoveStudent) => manager::remove_student(&mut students),
             None => return,
         }
     }
