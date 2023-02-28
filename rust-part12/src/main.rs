@@ -28,6 +28,10 @@ fn main() {
     let add = |a: i32, b: i32| a + b;
     let mult = |a: i32, b: i32| a * b;
     println!("{} {}", add(2, 6), mult(3, 8));
-    println!("{}", math(2,3,Box::new(|a, b| a + b)));
-    println!("{}", math(7,8,Box::new(|a, b| a * b)));
+
+    println!(
+        "{} {}",
+        math(2, 6, Box::new(|a, b| a + b)),
+        math(3, 8, Box::new(|a, b| a * b))
+    );
 }
