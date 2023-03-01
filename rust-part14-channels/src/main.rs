@@ -35,7 +35,7 @@ fn main() {
             },
             Err(e) => {
                 println!("Error Quit {:?}", e);
-                match main_tx.send(MainMsg::MainQuit) {
+                match main_tx.try_send(MainMsg::MainQuit) {
                     Ok(v) => v,
                     _ => (),
                 };
