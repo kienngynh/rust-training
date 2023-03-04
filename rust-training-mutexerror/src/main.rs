@@ -1,7 +1,6 @@
 use backoff::ExponentialBackoff;
 use parking_lot::{Mutex, ReentrantMutex};
 use std::thread;
-use std::time::Duration;
 use std::{rc::Rc, sync::Arc};
 
 #[allow(dead_code)]
@@ -14,6 +13,9 @@ fn recurse(data: Data, id: u32) -> u32 {
     }
 }
 type ArcAccount = Arc<Mutex<Account>>;
+fn arcaccount(account: Account) -> ArcAccount {
+    Arc::new(Mutex::new(account))
+}
 struct Account {
     balance: usize,
 }
@@ -23,17 +25,23 @@ fn transfer(from: ArcAccount, to: ArcAccount, amount: usize) {
             if let Some(mut to) = to.try_lock() {
                 from.balance -= amount;
                 to.balance += amount;
-                return Ok(());
+                return Ok(())
             }
         }
         Err(0)?
     };
     let backoff = ExponentialBackoff::default();
-    backoff::retry(backoff, op);
+    match backoff::retry(backoff, op){
+        Ok(v) => v,
+        Err(e) => println!("{:?}",e),
+    };
 }
 fn main() {
-    let a = ArcAccount(Arc::new(Mutex::new(Account { balance: 500 })));
-    let b = ArcAccount(Arc::new(Mutex::new(Account { balance: 600 })));
+    let a = arcaccount(Account { balance: 500 });
+    let b = arcaccount(Account { balance: 600 });
     let transaction_1 = thread::spawn(move || transfer(a, b, 100));
-    let transaction_2 = thread::spawn(move || transfer(b, a, 300));
+    match transaction_1.join() {
+        Ok(v) => println!("{:?}",v),
+        Err(e) => println!("{:?}",e)
+    };
 }
