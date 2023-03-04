@@ -1,6 +1,6 @@
+use parking_lot::Mutex;
 use std::sync::Arc;
 use std::thread;
-use parking_lot::Mutex;
 
 struct Number(usize);
 fn main() {
@@ -9,7 +9,7 @@ fn main() {
 
     let number_thread1 = Arc::clone(&number_thread);
     let number_thread2 = number_thread.clone();
-    
+
     let thread_1 = thread::spawn(move || {
         let mut number_plus = number_thread1.lock();
         number_plus.0 += 20;
@@ -18,9 +18,9 @@ fn main() {
         let mut number_plus = number_thread2.lock();
         number_plus.0 += 32;
     });
-    match thread_1.join().and_then(|_| thread_2.join()){
-        Ok(())=>(),
-        _ => ()
+    match thread_1.join().and_then(|_| thread_2.join()) {
+        Ok(()) => (),
+        _ => (),
     };
-    println!("{}",number_thread.lock().0);
+    println!("{}", number_thread.lock().0);
 }
