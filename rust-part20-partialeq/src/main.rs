@@ -11,13 +11,15 @@ struct User {
 }
 impl PartialOrd for User {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-        if self.name < other.name {
-            Some(Ordering::Less)
-        } else if self.name > other.name {
-            Some(Ordering::Greater)
-        } else {
-            Some(Ordering::Equal)
-        }
+        /*         if self.name < other.name {
+                  Some(Ordering::Less)
+              } else if self.name > other.name {
+                  Some(Ordering::Greater)
+              } else {
+                  Some(Ordering::Equal)
+              }
+        */
+        Some(self.name.cmp(&other.name))
     }
 }
 fn main() {
