@@ -1,5 +1,5 @@
 [package]
-name = "rust-training-mutexerror"
+name = "rust-part19-mutexerror"
 version = "0.1.0"
 edition = "2021"
 
